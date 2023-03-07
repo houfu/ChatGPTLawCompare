@@ -23,7 +23,6 @@ with st.expander("What is this about?"):
     * https://www.singaporelawwatch.sg/About-Singapore-Law/Singapore-Legal-System
     
     The text was then broken into smaller documents and then saved into a vector database.
-    (See the prepare_data.py in the project repo for more details on how this is done)
     
     After the vector database is prepared, the GPT3 model is prompted with the following text:
     """
@@ -34,6 +33,28 @@ If you don't know the answer, just say that you don't know, don't try to make up
     """)
 
     "Sources are also saved to show the context which the GPT-3 model saw to make the answer."
+
+    """
+    **What is ChatGPT+?**
+    
+    ChatGPT+ attempts to combine the data augmention method used in Custom with ChatGPT.
+    Using a series of system messages, the ChatGPT is shown the same context as Custom and 
+    is asked to provide an answer.
+    
+    ```
+    System Message: ("You are a helpful assistant. Use the following pieces of context to answer the question at 
+    the end. If the context does not help, don't use them. Don't try to make up an answer")
+    
+    System Message: For each context shown to Custom, ("Context: {context}")
+    
+    Human Message: "Question: {question}"
+    ```
+    
+    For more information on how the various responses are generated, see 
+    [the code in the repo](https://github.com/houfu/ChatGPTLawCompare/blob/master/prepare_data.py).
+
+    """
+
 
 with st.expander("How do I use this?"):
     """
