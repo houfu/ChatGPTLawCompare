@@ -22,7 +22,10 @@ and your own OpenAI key. A [free Weaviate Cluster ](https://weaviate.io/)
 is available for you to try, and you can get an OpenAI Key 
 from [their website](https://platform.openai.com/account/api-keys).
 
-4. Run the `prepare_data.py` script. This prepares `results.csv` which will be the source data 
+4. Run `poetry install --with dev` to install a virtualenv with dev dependencies 
+(for running `prepare_data.py`)
+
+5. Run the `prepare_data.py` script. This prepares `results.csv` which will be the source data 
 for your streamlit app in `main.py`. 
 To view this streamlit app, get an account at [streamlit](https://streamlit.io/) and deploy it there. 
 
