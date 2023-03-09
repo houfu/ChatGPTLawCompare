@@ -76,7 +76,7 @@ table = [
     "| Description |  Value | Notes |",
     "|-------------| -------| --- |",
     f"| **Question** | {question_series['question']} | The question asked to the LLM| ",
-    f"| **Answer** | {question_series['answer']} | My model answer for reference| ",
+    f"| **Notes** | {question_series['answer']} | My model answer for reference| ",
     f"| **ChatGPT** | {chatgpt_response} | ChatGPT's response| ",
     f"| **Custom** | {custom_response} | Data Augmented GPT-3's response| ",
     f"| **ChatGPT+** | {chatgpt_plus_response} | Data Augmented ChatGPT's response| ",

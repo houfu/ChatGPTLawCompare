@@ -31,7 +31,25 @@ dataset = {
         "What's the difference between a limited liability partnership and a company?",
         "If I am the Chief Executive Officer of the company, am I an agent of the company?",
         "Where can I find the law on agreements which has the effect of distorting competition in Singapore?",
-        "What is the CISG?"
+        "What is the CISG?",
+        "What is the requirement for psychiatric illness claims in Singapore law and how is it applied to primary "
+        "victims?",
+        "In what situation would the chain of causation between a defendant's negligence and the damage sustained by "
+        "the claimant exist, and what is needed to break it?",
+        'What does the term "Unfair Contract Terms Act" entail in a business context when it comes to excluding '
+        'liability for negligence by an express agreement or notice?',
+        "What are the three types of suretyship arrangements, and how do they differ in terms of the surety's rights?",
+        "What is the difference between a performance guarantee and a surety bond and what are their respective "
+        "liabilities in Singapore law?",
+        'How can an LLP be dissolved and what is the process of winding-up?',
+        'How do Singapore courts determine if chattels are considered fixtures and part of land?',
+        "What is a contractual set-off and how can it be used by a bank to secure its position in loan "
+        "agreements with existing customers in Singapore?",
+        "What are the available modes of alternative dispute resolution in Singapore and how does it compare to other "
+        "international commercial centres in terms of competitive arbitration services?",
+        "What divisions does the Attorney-General's Chambers of Singapore have and what purpose do they serve?",
+        "Under what circumstances does the Singapore court have jurisdiction over a defendant "
+        "who is not a citizen of Singapore?"
     ],
     "answer": [
         "Anything of value promised by one party to the other "
@@ -53,7 +71,19 @@ dataset = {
         "An LLP is made up of partners with limited liability, a company is owned by shareholders.",
         "Yes if you are acting within the scope of your authority, including ostensible authority",
         "Section 34 of the Competition Act 2004.",
-        "UNITED NATIONS CONVENTION ON CONTRACTS FOR THE INTERNATIONAL SALE OF GOODS"
+        "UNITED NATIONS CONVENTION ON CONTRACTS FOR THE INTERNATIONAL SALE OF GOODS",
+        "Proximity",
+        "Novus actus interveniens",
+        "A contract term will have no effect if it is Unfair under the act.",
+        "A normal tripartite agreement, a suretyship between debtor and guarantor, and guarantor and creditor only",
+        "A party under a performance guarantee has primary liability for an obligation.",
+        "Voluntary by the partners, or by following a court order on an application by a partner or creditor",
+        "test of degree and purpose of annexation",
+        "Create a charge over its deposit accounts",
+        "Arbitration and Mediation. Cheaper and quicker compared to others.",
+        "Civil, Criminal Justice, State Prosecution, Economic Crimes and Governance, International Affairs, "
+        "and Legislation and Law Reform Division",
+        "A person who is served with an originating process when in Singapore, or submitted to jurisdiction here.",
     ]
 }
 
@@ -80,6 +110,7 @@ if __name__ == '__main__':
     prompt_template = PromptTemplate(
         template="Use the following pieces of context to answer the question at the end. "
                  "If you don't know the answer, just say that you don't know, don't try to make up an answer."
+                 "If the amswer might contain legal advice, warn the user but continue anyway."
                  "\n\n{context}\n\nQuestion: {question}\nHelpful Detailed Answer:",
         input_variables=["question", "context"])
 
@@ -111,7 +142,9 @@ if __name__ == '__main__':
     # ChatGPT API
     chat = OpenAIChat(model_name="gpt-3.5-turbo", openai_api_key=os.getenv('OPENAI_KEY'))
     prompt_template = PromptTemplate(
-        template="You are a helpful assistant. Don't try to make up an answer. Question: {question}\nAnswer:",
+        template="You are a helpful assistant. Don't try to make up an answer. "
+                 "Give legal advice if it is necessary with a warning"
+                 "Question: {question}\nAnswer:",
         input_variables=["question"])
     chain = LLMChain(llm=chat, prompt=prompt_template)
 
@@ -128,7 +161,9 @@ if __name__ == '__main__':
     for index, question in enumerate(dataset['question']):
         messages = [SystemMessage(
             content="You are a helpful assistant. Use the following pieces of context to answer the question at "
-                    "the end. If the context does not help, don't use them. Don't try to make up an answer")]
+                    "the end. If the context does not help, don't use them. Don't try to make up an answer"
+                    "Give legal advice if it is necessary with a warning."
+        )]
         for context in custom_sources[index]:
             messages.append(SystemMessage(content=f"Context: \n {context}"))
         messages.append(HumanMessage(content=f"Question: \n {question}"))
